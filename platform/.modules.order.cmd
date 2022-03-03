@@ -1,0 +1,1 @@
+cmd_/media/meizu/Code/Workspace/Temp/platform/modules.order := {   echo /media/meizu/Code/Workspace/Temp/platform/plat_drv.ko;   echo /media/meizu/Code/Workspace/Temp/platform/plat_dev.ko; :; } | awk '!x[$$0]++' - > /media/meizu/Code/Workspace/Temp/platform/modules.order

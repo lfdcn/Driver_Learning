@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "i2c.h": "c",
+        "module.h": "c",
+        "videodev2.h": "c",
+        "init.h": "c",
+        "platform_device.h": "c"
+    }
+}
