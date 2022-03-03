@@ -2,6 +2,7 @@
 #include <linux/i2c.h>
 #include <linux/init.h>
 #include <linux/module.h>
+#include <linux/slab.h>
 //#include <linux/videodev2.h>
 
 struct vi2c_struct
