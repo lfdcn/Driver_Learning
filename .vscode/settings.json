@@ -4,6 +4,7 @@
         "module.h": "c",
         "videodev2.h": "c",
         "init.h": "c",
-        "platform_device.h": "c"
+        "platform_device.h": "c",
+        "of.h": "c"
     }
 }
