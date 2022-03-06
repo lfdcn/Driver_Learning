@@ -1,1 +1,0 @@
-cmd_/media/meizu/Code/Workspace/Temp/platform/Module.symvers := sed 's/\.ko$$/\.o/' /media/meizu/Code/Workspace/Temp/platform/modules.order | scripts/mod/modpost -m -a  -o /media/meizu/Code/Workspace/Temp/platform/Module.symvers -e -i Module.symvers   -T -

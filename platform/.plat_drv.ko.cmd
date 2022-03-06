@@ -1,1 +1,0 @@
-cmd_/media/meizu/Code/Workspace/Temp/platform/plat_drv.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /media/meizu/Code/Workspace/Temp/platform/plat_drv.ko /media/meizu/Code/Workspace/Temp/platform/plat_drv.o /media/meizu/Code/Workspace/Temp/platform/plat_drv.mod.o;  true
