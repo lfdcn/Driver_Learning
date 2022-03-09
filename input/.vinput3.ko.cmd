@@ -1,0 +1,1 @@
+cmd_/media/meizu/Code/Workspace/Driver_Learning/input/vinput3.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /media/meizu/Code/Workspace/Driver_Learning/input/vinput3.ko /media/meizu/Code/Workspace/Driver_Learning/input/vinput3.o /media/meizu/Code/Workspace/Driver_Learning/input/vinput3.mod.o;  true

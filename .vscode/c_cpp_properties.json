@@ -3,10 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                //"/usr/src/linux-headers-5.13.0-30-generic/include/",
-                //"/usr/src/linux-headers-5.13.0-30-generic/arch/x86/include/",
-                "/usr/src/linux-headers-5.15.18-rockchip64/include/",
-                "/usr/src/linux-headers-5.15.18-rockchip64/arch/arm64/include",
+                "/usr/src/linux-headers-5.13.0-30-generic/include/",
+                "/usr/src/linux-headers-5.13.0-30-generic/arch/x86/include/",
+                //"/usr/src/linux-headers-5.15.18-rockchip64/include/",
+                //"/usr/src/linux-headers-5.15.18-rockchip64/arch/arm64/include",
                 "${workspaceFolder}/**"
             ],
             "defines": [],

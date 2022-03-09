@@ -1,6 +1,8 @@
 KDIR := /lib/modules/$(shell uname -r)/build
+#KDIR := /lib/modules/5.10.63-rockchip64/build
 PWD := $(shell pwd)
-MOD_NAME := vinput3
+MOD_NAME1 := 
+#MOD_NAME2 := 
 
 modules:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
@@ -9,6 +11,5 @@ modules:
 clean :
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
 
-obj-m += ${MOD_NAME}.o
-#${MOD_NAME}-objs += hello.o
-#${MOD_NAME}-objs += test.o
+obj-m += ${MOD_NAME1}.o
+#obj-m += ${MOD_NAME2}.o
