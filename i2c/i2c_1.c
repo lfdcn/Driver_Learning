@@ -56,7 +56,7 @@ int mpu6050_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	mpu6050_dev = kzalloc(sizeof(struct mpu6050_struct), GFP_KERNEL);
 
 	mpu6050_dev->client = client;
-	mpu6050_dev->dev_major = register_chrdev(0, "mpu6050_test", &mpu6050_fops);
+	mpu6050_dev->dev_major = register_chrdev(0, "mpu6050_drv", &mpu6050_fops);
 	mpu6050_dev->cls = class_create(THIS_MODULE, "mpu6050_cls");
 	mpu6050_dev->dev = device_create(mpu6050_dev->cls, NULL, MKDEV(mpu6050_dev->dev_major, 0), NULL, "mpu6050_dev");
 }
@@ -70,16 +70,14 @@ int mpu6050_remove(struct i2c_client *client)
 }
 
 //依赖于设备树
-const struct of_device_id *of_mpu6050_id[] = {
+const struct of_device_id of_mpu6050_id[] = {
 	{
-		.compatible = "test,mpu6050",
-	} {/*nothing to be done*/},
-};
+		.compatible = "GY_521,mpu6050",
+	}};
 
 //不用设备树
-struct i2c_device_id *mpu6050_id_table[] = {
+struct i2c_device_id mpu6050_id_table[] = {
 	{"i2c_demo", 0x1111},
-	{/*nothing to be done*/},
 };
 
 struct i2c_driver mpu6050 = {
