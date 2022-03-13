@@ -8,7 +8,12 @@
 #include <linux/of_device.h>
 #include <linux/slab.h>
 
+<<<<<<< HEAD
 struct mpu6050_struct {
+=======
+struct mpu6050_struct
+{
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 	int dev_major;
 	struct device *dev;
 	struct class *cls;
@@ -50,7 +55,11 @@ int mpu6050_write_bytes(const struct i2c_client *client, const char *buf,
 	msg.len = count;
 	msg.buf = buf;
 
+<<<<<<< HEAD
 	ret = i2c_transfer(adapter, &msg, 1);
+=======
+	ret = i2c_transfer(adapter, msg, 1);
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 	return ret == 1 ? count : ret;
 }
 
@@ -67,7 +76,11 @@ int mpu6050_read_bytes(const struct i2c_client *client, const char *buf,
 	msg.len = count;
 	msg.buf = buf;
 
+<<<<<<< HEAD
 	ret = i2c_transfer(adapter, &msg, 1);
+=======
+	ret = i2c_transfer(adapter, msg, 1);
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 	return ret == 1 ? count : ret;
 }
 
@@ -76,6 +89,7 @@ int mpu6050_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	mpu6050_dev = kzalloc(sizeof(struct mpu6050_struct), GFP_KERNEL);
 
 	mpu6050_dev->client = client;
+<<<<<<< HEAD
 	mpu6050_dev->dev_major =
 		register_chrdev(0, "mpu6050_test", &mpu6050_fops);
 	mpu6050_dev->cls = class_create(THIS_MODULE, "mpu6050_cls");
@@ -84,6 +98,11 @@ int mpu6050_probe(struct i2c_client *client, const struct i2c_device_id *id)
 					 "mpu6050_dev");
 					 printk("=====%s=====",__func__);
 	return 0;
+=======
+	mpu6050_dev->dev_major = register_chrdev(0, "mpu6050_drv", &mpu6050_fops);
+	mpu6050_dev->cls = class_create(THIS_MODULE, "mpu6050_cls");
+	mpu6050_dev->dev = device_create(mpu6050_dev->cls, NULL, MKDEV(mpu6050_dev->dev_major, 0), NULL, "mpu6050_dev");
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 }
 
 int mpu6050_remove(struct i2c_client *client)
@@ -92,13 +111,17 @@ int mpu6050_remove(struct i2c_client *client)
 	class_destroy(mpu6050_dev->cls);
 	unregister_chrdev(mpu6050_dev->dev_major, "mpu6050_test");
 	kfree(mpu6050_dev);
+<<<<<<< HEAD
 	printk("=====%s=====",__func__);
 
 	return 0;
+=======
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 }
 
 //依赖于设备树
 const struct of_device_id of_mpu6050_id[] = {
+<<<<<<< HEAD
 	{ .compatible = "allwinner,mpu6050" },
 	{},
 };
@@ -116,6 +139,26 @@ struct i2c_driver mpu6050 = {
         .of_match_table = of_match_ptr(of_mpu6050_id),
     },
     .id_table = mpu6050_id_table, //非设备树匹配
+=======
+	{
+		.compatible = "GY_521,mpu6050",
+	}};
+
+//不用设备树
+struct i2c_device_id mpu6050_id_table[] = {
+	{"i2c_demo", 0x1111},
+};
+
+struct i2c_driver mpu6050 = {
+	.probe = mpu6050_probe,
+	.remove = mpu6050_remove,
+	.driver = {
+		.name = "i2c_driver_test",
+		.of_match_table = of_match_ptr(of_mpu6050_id),
+		.module = THIS_MODULE,
+	},
+	.id_table = mpu6050_id_table, //非设备树匹配
+>>>>>>> e0802a972c33236afbcb74b9026a218a47139f8a
 };
 
 static int __init mpu6050_init(void)

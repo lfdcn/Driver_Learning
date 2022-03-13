@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../tina_d1/AW-2022021419292655"
 		}
 	],
 	"settings": {
