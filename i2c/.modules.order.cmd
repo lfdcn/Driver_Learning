@@ -1,0 +1,1 @@
+cmd_/home/lfdcn/workspace/Driver_Learning/i2c/modules.order := {   echo /home/lfdcn/workspace/Driver_Learning/i2c/i2c_1.ko; :; } | awk '!x[$$0]++' - > /home/lfdcn/workspace/Driver_Learning/i2c/modules.order
