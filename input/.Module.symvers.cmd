@@ -1,1 +1,0 @@
-cmd_/media/meizu/Code/Workspace/Driver_Learning/input/Module.symvers := sed 's/\.ko$$/\.o/' /media/meizu/Code/Workspace/Driver_Learning/input/modules.order | scripts/mod/modpost -m -a  -o /media/meizu/Code/Workspace/Driver_Learning/input/Module.symvers -e -i Module.symvers   -T -

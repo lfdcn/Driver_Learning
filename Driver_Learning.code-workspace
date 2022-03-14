@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../tina_d1/AW-2022021419292655"
+		},
+		{
+			"path": "../tina-d1-h/device/config/chips/d1-h/configs/nezha/linux"
+		},
+		{
+			"path": "../tina-d1-h/lichee/linux-5.4/arch/riscv/boot/dts/sunxi"
 		}
 	],
 	"settings": {

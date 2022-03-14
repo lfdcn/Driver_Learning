@@ -1,0 +1,246 @@
+#include <linux/module.h>
+#include <linux/init.h>
+// #include <linux/ratelimit.h>
+#include <linux/interrupt.h>
+#include <linux/input.h>
+// #include <linux/i2c.h>
+#include <linux/uaccess.h>
+#include <linux/delay.h>
+#include <linux/debugfs.h>
+#include <linux/slab.h>
+// #include <linux/gpio.h>
+// #include <linux/of_gpio.h>
+// #include <linux/input/mt.h>
+// #include <linux/input/touchscreen.h>
+
+#define MAX_SUPPORT_POINTS 5      /* 5点触摸 	*/
+#define TOUCH_EVENT_DOWN 0x00     /* 按下 	*/
+#define TOUCH_EVENT_UP 0x01       /* 抬起 	*/
+#define TOUCH_EVENT_ON 0x02       /* 接触 	*/
+#define TOUCH_EVENT_RESERVED 0x03 /* 保留 	*/
+
+#define TOUCH_MAX_X 1076          /* 最大X值 */
+#define TOUCH_MAX_Y 2338          /* 最大Y值 */
+
+struct vinputdev
+{
+    struct device_node *nd; /* 设备节点 		*/
+    // int irq_pin, reset_pin;    /* 中断和复位IO		*/
+    // int irqnum;              /* 中断号    		*/
+    void *private_data;      /* 私有数据 		*/
+    struct input_dev *input; /* input结构体 		*/
+    //    struct i2c_client *client; /* I2C客户端 		*/
+};
+
+static struct vinputdev vinput;
+
+/*
+ * @description     : FT5X06中断服务函数
+ * @param - irq 	: 中断号
+ * @param - dev_id	: 设备结构。
+ * @return 			: 中断执行结果
+ */
+static irqreturn_t vdev_handler(int irq, void *dev_id)
+{
+    struct vinputdev *multidata = dev_id;
+
+    u8 rdbuf[29];
+    int i, type, x, y, id;
+    int offset, tplen;
+    // int ret;
+    bool down;
+
+    offset = 1; /* 偏移1，也就是0X02+1=0x03,从0X03开始是触摸值 */
+    tplen = 6;  /* 一个触摸点有6个寄存器来保存触摸值 */
+
+    memset(rdbuf, 0, sizeof(rdbuf)); /* 清除 */
+
+    /* 读取FT5X06触摸点坐标从0X02寄存器开始，连续读取29个寄存器 */
+    // ret = ft5x06_read_regs(multidata, FT5X06_TD_STATUS_REG, rdbuf, FT5X06_READLEN);
+    // if (ret)
+    // {
+    //     goto fail;
+    // }
+
+    /* 上报每一个触摸点坐标 */
+    for (i = 0; i < MAX_SUPPORT_POINTS; i++)
+    {
+        u8 *buf = &rdbuf[i * tplen + offset];
+
+        type = buf[0] >> 6; /* 获取触摸类型 */
+        if (type == TOUCH_EVENT_RESERVED)
+            continue;
+
+        // /* 我们所使用的触摸屏和FT5X06是反过来的 */
+        // x = ((buf[2] << 8) | buf[3]) & 0x0fff;
+        // y = ((buf[0] << 8) | buf[1]) & 0x0fff;
+
+        /* 以第一个触摸点为例，寄存器TOUCH1_YH(地址0X05),各位描述如下：
+         * bit7:4  Touch ID  触摸ID，表示是哪个触摸点
+         * bit3:0  Y轴触摸点的11~8位。
+         */
+        // id = (buf[2] >> 4) & 0x0f;
+        // down = type != TOUCH_EVENT_UP;
+
+        // input_mt_slot(multidata->input, id);
+        // input_mt_report_slot_state(multidata->input, MT_TOOL_FINGER, down);
+
+        // if (!down)
+        //     continue;
+
+        input_report_abs(multidata->input, ABS_MT_POSITION_X, x);
+        input_report_abs(multidata->input, ABS_MT_POSITION_Y, y);
+    }
+
+    input_mt_report_pointer_emulation(multidata->input, true);
+    input_sync(multidata->input);
+
+// fail:
+//     return IRQ_HANDLED;
+}
+
+/*
+ * @description     : FT5x06中断初始化
+ * @param - client 	: 要操作的i2c
+ * @param - multidev: 自定义的multitouch设备
+ * @return          : 0，成功;其他负值,失败
+ */
+static int ft5x06_ts_irq(struct i2c_client *client, struct vinputdev *dev)
+{
+    int ret = 0;
+
+    /* 1,申请中断GPIO */
+    // if (gpio_is_valid(dev->irq_pin))
+    // {
+    //     ret = devm_gpio_request_one(&client->dev, dev->irq_pin,
+    //                                 GPIOF_IN, "edt-ft5x06 irq");
+    //     if (ret)
+    //     {
+    //         dev_err(&client->dev,
+    //                 "Failed to request GPIO %d, error %d\n",
+    //                 dev->irq_pin, ret);
+    //         return ret;
+    //     }
+    // }
+
+    /* 2，申请中断,client->irq就是IO中断， */
+    ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+                                    vdev_handler, IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+                                    client->name, &vinput);
+    if (ret)
+    {
+        dev_err(&client->dev, "Unable to request touchscreen IRQ.\n");
+        return ret;
+    }
+
+    return 0;
+}
+
+/*
+ *  传统驱动匹配表
+ */
+// static const struct i2c_device_id ft5x06_ts_id[] = {
+//     {
+//         "edt-ft5206",
+//         0,
+//     },
+//     {
+//         "edt-ft5426",
+//         0,
+//     },
+//     {/* sentinel */}};
+
+/*
+ * 设备树匹配表
+ */
+// static const struct of_device_id ft5x06_of_match[] = {
+//     {
+//         .compatible = "edt,edt-ft5206",
+//     },
+//     {
+//         .compatible = "edt,edt-ft5426",
+//     },
+//     {/* sentinel */}};
+
+/*
+ * @description	: 驱动入口函数
+ * @param 		: 无
+ * @return 		: 无
+ */
+static int __init vinputdev_init(void)
+{
+    int ret = 0;
+
+    // ft5x06.client = client;
+
+    /* 1，获取设备树中的中断和复位引脚 */
+    // ft5x06.irq_pin = of_get_named_gpio(client->dev.of_node, "interrupt-gpios", 0);
+    // ft5x06.reset_pin = of_get_named_gpio(client->dev.of_node, "reset-gpios", 0);
+
+    /* 2，复位FT5x06 */
+    // ret = ft5x06_ts_reset(client, &ft5x06);
+    // if (ret < 0)
+    // {
+    //     goto fail;
+    // }
+
+    /* 3，初始化中断 */
+    ret = ft5x06_ts_irq(client, &vinput);
+    if (ret < 0)
+    {
+        goto fail;
+    }
+
+    /* 4，初始化FT5X06 */
+
+    /* 5，input设备注册 */
+    vinput.input = devm_input_allocate_device(&client->dev);
+    if (!vinput.input)
+    {
+        ret = -ENOMEM;
+        goto fail;
+    }
+    // ft5x06.input->name = client->name;
+    // ft5x06.input->id.bustype = BUS_I2C;
+    // ft5x06.input->dev.parent = &client->dev;
+
+    __set_bit(EV_KEY, vinput.input->evbit);
+    __set_bit(EV_ABS, vinput.input->evbit);
+    __set_bit(BTN_TOUCH, vinput.input->keybit);
+
+    input_set_abs_params(vinput.input, ABS_X, 0, TOUCH_MAX_X, 0, 0);
+    input_set_abs_params(vinput.input, ABS_Y, 0, TOUCH_MAX_Y, 0, 0);
+    input_set_abs_params(ft5x06.input, ABS_MT_POSITION_X, 0, TOUCH_MAX_X, 0, 0);
+    input_set_abs_params(ft5x06.input, ABS_MT_POSITION_Y, 0, TOUCH_MAX_Y, 0, 0);
+    ret = input_mt_init_slots(ft5x06.input, MAX_SUPPORT_POINTS, 0);
+    if (ret)
+    {
+        goto fail;
+    }
+
+    ret = input_register_device(vinput.input);
+    if (ret)
+        goto fail;
+
+    return 0;
+
+fail:
+    return ret;
+}
+
+/*
+ * @description	: 驱动出口函数
+ * @param 		: 无
+ * @return 		: 无
+ */
+static void __exit vinputdev_exit(void)
+{
+    /* 释放input_dev */
+    input_unregister_device(vinput.input);
+    // i2c_del_driver(&ft5x06_ts_driver);
+}
+
+module_init(vinputdev_init);
+module_exit(vinputdev_exit);
+MODULE_LICENSE("GPL v2");
+MODULE_DESCRIPTION("Virtual Device Code");

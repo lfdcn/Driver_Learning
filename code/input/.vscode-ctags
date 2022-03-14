@@ -1,0 +1,15 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = $(CROSS_COMPILE)gcc$/;"	m
+CROSS_COMPILE	Makefile	/^CROSS_COMPILE = \/media\/meizu\/Code\/Workspace\/SM8250\/prebuilts\/gcc\/linux-x86\/arm\/arm-eabi-4.8\/bin\/arm-eabi-$/;"	m
+CUR_DIR	Makefile	/^CUR_DIR = $(shell pwd)$/;"	m
+KERNEL_DIR	Makefile	/^KERNEL_DIR = \/home\/meizu\/Downloads\/linux-4.19.223$/;"	m
+vinputdev	vinputdev.c	/^struct input_dev *vinputdev;$/;"	v	typeref:struct:input_dev
+vinputdev_exit	vinputdev.c	/^module_exit(vinputdev_exit);$/;"	v
+vinputdev_exit	vinputdev.c	/^static void __exit vinputdev_exit(void)$/;"	f	file:
+vinputdev_init	vinputdev.c	/^module_init(vinputdev_init);$/;"	v
+vinputdev_init	vinputdev.c	/^static int __init vinputdev_init(void)$/;"	f	file:
