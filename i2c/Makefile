@@ -1,4 +1,5 @@
-KDIR := /lib/modules/$(shell uname -r)/build
+#KDIR := /lib/modules/$(shell uname -r)/build
+KDIR := /lib/modules/5.13.0-30-generic/build
 #KDIR := /lib/modules/5.10.63-rockchip64/build
 PWD := $(shell pwd)
 MOD_NAME := i2c_1
