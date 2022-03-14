@@ -3,10 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "/usr/src/linux-headers-5.13.0-30-generic/include/",
-                "/usr/src/linux-headers-5.13.0-30-generic/arch/x86/include/",
+                // "/usr/src/linux-headers-5.13.0-30-generic/include/",
+                // "/usr/src/linux-headers-5.13.0-30-generic/arch/x86/include/",
                 //"/usr/src/linux-headers-5.15.18-rockchip64/include/",
                 //"/usr/src/linux-headers-5.15.18-rockchip64/arch/arm64/include",
+                "/home/lfdcn/workspace/tina-d1-h/lichee/linux-5.4/include",
+                "/home/lfdcn/workspace/tina-d1-h/lichee/linux-5.4/include/uapi",
+                "/home/lfdcn/workspace/tina-d1-h/lichee/linux-5.4/arch/riscv/include",
                 "${workspaceFolder}/**"
             ],
             "defines": [],

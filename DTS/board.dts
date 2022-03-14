@@ -1063,6 +1063,8 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		compatible = "allwinner,mpu6050";
 		reg = <0x68>;
 		status = "okay";
+		mpu6050_name = "mpu6050_drv";
+
 	};
 };
 
