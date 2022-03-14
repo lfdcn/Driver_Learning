@@ -1,0 +1,1 @@
+cmd_/media/meizu/Code/Workspace/Driver_Learning/i2c/i2c_1.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /media/meizu/Code/Workspace/Driver_Learning/i2c/i2c_1.ko /media/meizu/Code/Workspace/Driver_Learning/i2c/i2c_1.o /media/meizu/Code/Workspace/Driver_Learning/i2c/i2c_1.mod.o;  true

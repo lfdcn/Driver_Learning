@@ -1,0 +1,1 @@
+cmd_/media/meizu/Code/Workspace/Driver_Learning/i2c/Module.symvers := sed 's/\.ko$$/\.o/' /media/meizu/Code/Workspace/Driver_Learning/i2c/modules.order | scripts/mod/modpost -m -a  -o /media/meizu/Code/Workspace/Driver_Learning/i2c/Module.symvers -e -i Module.symvers   -T -
