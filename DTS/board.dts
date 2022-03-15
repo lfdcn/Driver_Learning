@@ -1127,7 +1127,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 		reg = <0x0>;
 		spi-rx-bus-width = <0x4>;
 		spi-tx-bus-width = <0x4>;
-		status = "okay";
+		status = "disabled";
 	};
 	/* spi_board1@0 {
 		device_type = "spi_board1";
