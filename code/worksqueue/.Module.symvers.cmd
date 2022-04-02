@@ -1,0 +1,1 @@
+cmd_/home/lfdcn/workspace/Driver_Learning/code/worksqueue/Module.symvers := sed 's/\.ko$$/\.o/' /home/lfdcn/workspace/Driver_Learning/code/worksqueue/modules.order | scripts/mod/modpost    -o /home/lfdcn/workspace/Driver_Learning/code/worksqueue/Module.symvers -e -i Module.symvers   -T -

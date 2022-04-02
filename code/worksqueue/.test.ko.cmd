@@ -1,0 +1,1 @@
+cmd_/home/lfdcn/workspace/Driver_Learning/code/worksqueue/test.ko := ld -r -EL  -maarch64elf --build-id=sha1  -T scripts/module.lds -o /home/lfdcn/workspace/Driver_Learning/code/worksqueue/test.ko /home/lfdcn/workspace/Driver_Learning/code/worksqueue/test.o /home/lfdcn/workspace/Driver_Learning/code/worksqueue/test.mod.o;  true
