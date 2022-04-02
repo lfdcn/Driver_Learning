@@ -1,24 +1,26 @@
 #include <linux/init.h>
-#include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/module.h>
 #include <linux/workqueue.h>
 
-struct wq_struct{
+struct wq_struct
+{
     struct work_struct work;
     struct delayed_work dl_work;
 };
 
 static struct wq_struct wq_op;
 
-void wq_printf(struct work_struct *work){
-    printk("=====%s=====",__func__);
+void wq_printf(struct work_struct *work)
+{
+    printk("=====%s=====", __func__);
 }
 
 static int __init test_init(void)
 {
-    INIT_WORK(&wq_op.work,wq_printf);
+    INIT_WORK(&wq_op.work, wq_printf);
 
-    if(0==schedule_work(&wq_op.work))
+    if (0 == schedule_work(&wq_op.work))
         printk("failed");
 
     return 0;
